@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import schedule
 import time
 import requests
@@ -98,10 +99,9 @@ ip = socket.gethostbyname(hostname)
 
 # 随机时间
 def round_time():
-    h = random.randint(9, 10)
+    h = random.randint(9, 18)
     m = random.randint(0, 59)
     task_time = str(h).zfill(2) + ":" + str(m).zfill(2)
-    # task_time = "13:28"
     return task_time
 
 
@@ -118,6 +118,9 @@ def init_job():
     task_dict.clear()
     for user in user_list:
         task_time = round_time()
+        # 去重
+        while task_time in task_dict.keys():
+            task_time = round_time()
         print("今天" + task_time + "登录用户" + user["user_name"])
         task_dict[task_time] = user
         job = schedule.every().day.at(task_time).do(login_encrypt, task_time)
@@ -125,8 +128,8 @@ def init_job():
 
 
 # init_job()
-schedule.every().day.at("08:48").do(init_job)
+schedule.every().day.at("08：00").do(init_job)
 while True:
     schedule.run_pending()
-    time.sleep(1)
+    time.sleep(60)
 
