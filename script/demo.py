@@ -6,40 +6,42 @@ import zipfile
 import os
 import time
 
-host = '172.16.98.12' # 远程主机IP
-username = 'chinaedu' # 用户名
-password = 'chinaedu' # 密码
-share_device = 'guola' # 主机分享文件夹
+host = '172.16.98.12'  # 远程主机IP
+username = 'chinaedu'  # 用户名
+password = 'chinaedu'  # 密码
+share_device = 'guola'  # 主机分享文件夹
 zip_file_name = '/dist.zip'
 
 # 本地路径配置
-backup_file_path = 'D:/backup/oneYuanPurchase' # 备份文件路径
-project_path = 'E:/h5/oneYuanPurchase/dist' # 项目路径
-zip_file = project_path + zip_file_name # 本地压缩文件
+backup_file_path = 'D:/backup/oneYuanPurchase'  # 备份文件路径
+project_path = 'E:/h5/oneYuanPurchase/dist'  # 项目路径
+zip_file = project_path + zip_file_name  # 本地压缩文件
 
 # 远程主机路径配置
-origin_sub_path = '/oneYuanPurchase' # 主机项目文件夹相对路径
-origin_path = '//' + host + '/' +  share_device + origin_sub_path # 主机项目绝对路径
-origin_zip_file = origin_sub_path + zip_file_name # 主机压缩文件相对路径
+origin_sub_path = '/oneYuanPurchase'  # 主机项目文件夹相对路径
+origin_path = '//' + host + '/' + share_device + origin_sub_path  # 主机项目绝对路径
+origin_zip_file = origin_sub_path + zip_file_name  # 主机压缩文件相对路径
 
 
 # 构建项目
 print('开始构建项目')
 os.system('npm run build')
 
+
 # 压缩
-def zip( projectPath, zipFile ):
+def zip_fun(p_path, z_file):
     print('开始压缩dist文件夹')
     file_list = []
-    for root, dirs, files in os.walk(projectPath):
+    for root, dirs, files in os.walk(p_path):
         for name in files:
             file_list.append(os.path.join(root, name))
-    zf = zipfile.ZipFile(zipFile, 'w', zipfile.ZIP_DEFLATED)
+    zf = zipfile.ZipFile(z_file, 'w', zipfile.ZIP_DEFLATED)
     for path in file_list:
         print('添加压缩文件：' + path)
-        zf.write(path, path.replace(projectPath, ''))
+        zf.write(path, path.replace(p_path, ''))
     zf.close()
     return
+
 
 # 解压
 def unzip_file(zip_src, dist_dir):
@@ -52,16 +54,18 @@ def unzip_file(zip_src, dist_dir):
         print('This is not zip')
     return
 
+
 # 本地项目dist压缩
-zip(project_path, zip_file)
+zip_fun(project_path, zip_file)
 
 # 连接主机
-conn = SMBConnection(username, username, 'any', '', use_ntlm_v2 = True)
-assert conn.connect(host, 139) # smb服务器地址
+conn = SMBConnection(username, username, 'any', '', use_ntlm_v2=True)
+assert conn.connect(host, 139)  # smb服务器地址
 if conn:
-   print(host + '连接成功~')
+    print(host + '连接成功~')
 else:
-   print("failed to connect")
+    print("failed to connect")
+
 
 # 压缩远程文件
 def walk_path(path):
@@ -78,6 +82,7 @@ def walk_path(path):
                     print(parent_path + p.filename)
                     origin_zf.write(origin_path + parent_path + p.filename, parent_path + p.filename)
     return
+
 
 origin_zf = zipfile.ZipFile(origin_path + zip_file_name, 'w', zipfile.ZIP_DEFLATED)
 print('开始备份远程文件')
