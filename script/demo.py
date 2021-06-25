@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # run 'python -m pip install pysmb' to install pysmb
 
 from smb.SMBConnection import SMBConnection

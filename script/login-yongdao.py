@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import schedule
 import time
 import requests
@@ -6,18 +6,11 @@ import socket
 import rsa
 import base64
 import random
+import json
 
 base_url = "https://we.chinaedu.net/volbeacon"
-user_list = [
-    {
-        "user_name": "gaoxiang1_dl",
-        "password": "123456"
-    },
-    {
-        "user_name": "dingru",
-        "password": "dingru0515"
-    }
-]
+user_list = json.load(open("./user-config.json"))
+print(user_list)
 # 任务字典 key未执行任务的时间点，value未登录用户信息{user_name: String, password: String}
 task_dict = {}
 # 任务列表，保存每天的登录任务
@@ -128,7 +121,7 @@ def init_job():
 
 
 # init_job()
-schedule.every().day.at("08：00").do(init_job)
+schedule.every().day.at("08:00").do(init_job)
 while True:
     schedule.run_pending()
     time.sleep(60)
