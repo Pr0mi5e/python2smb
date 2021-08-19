@@ -81,7 +81,6 @@ def login_encrypt(task_time):
     password_encryption = rsa_encrypt(user["password"], public_rsa_key)
     print(user["password"])
     user_name = user["user_name"]
-    print(password_encryption, login_id)
     login(login_id, password_encryption, user_name)
 
 
@@ -92,7 +91,7 @@ ip = socket.gethostbyname(hostname)
 
 # 随机时间
 def round_time():
-    h = random.randint(9, 18)
+    h = random.randint(9, 12)
     m = random.randint(0, 59)
     task_time = str(h).zfill(2) + ":" + str(m).zfill(2)
     return task_time
@@ -118,11 +117,12 @@ def init_job():
         task_dict[task_time] = user
         job = schedule.every().day.at(task_time).do(login_encrypt, task_time)
         job_list.append(job)
+    print(task_dict, job_list)
 
 
 # init_job()
-schedule.every().day.at("08:00").do(init_job)
+schedule.every().day.at("00:59").do(init_job)
 while True:
     schedule.run_pending()
-    time.sleep(60)
+    time.sleep(1)
 
