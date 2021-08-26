@@ -91,7 +91,7 @@ ip = socket.gethostbyname(hostname)
 
 # 随机时间
 def round_time():
-    h = random.randint(9, 12)
+    h = random.randint(15, 17)
     m = random.randint(0, 59)
     task_time = str(h).zfill(2) + ":" + str(m).zfill(2)
     return task_time
@@ -120,8 +120,8 @@ def init_job():
     print(task_dict, job_list)
 
 
-# init_job()
-schedule.every().day.at("00:59").do(init_job)
+init_job()
+# schedule.every().day.at("08:59").do(init_job)
 while True:
     schedule.run_pending()
     time.sleep(1)
