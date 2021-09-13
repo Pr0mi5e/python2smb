@@ -1,2 +1,7 @@
-.idea/
-script/build/*
+.idea
+script/build
+script/dist
+script/__pycache__
+dist
+build
+login-yongdao.spec
