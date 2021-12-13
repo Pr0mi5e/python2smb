@@ -7,6 +7,10 @@ import rsa
 import base64
 import random
 import json
+import os
+import sys
+
+os.environ["REQUESTS_CA_BUNDLE"] = os.path.join(os.path.dirname(sys.argv[0]), 'cacert.pem')
 
 yongdao_url = "https://we.chinaedu.net/volbeacon"
 api_url = "http://39.105.22.135:8000"
@@ -77,7 +81,7 @@ def login_encrypt(task_time):
     user = task_dict[task_time]
     password_encryption = rsa_encrypt(user["password"], public_rsa_key)
     # print(user["password"])
-    user_name = user["user_name"]
+    user_name = user["studentName"]
     login(login_id, password_encryption, user_name)
 
 
@@ -88,8 +92,8 @@ ip = socket.gethostbyname(hostname)
 
 # 随机时间
 def round_time():
-    h = random.randint(10, 12)
-    m = random.randint(30, 59)
+    h = random.randint(10, 11)
+    m = random.randint(0, 59)
     task_time = str(h).zfill(2) + ":" + str(m).zfill(2)
     return task_time
 
