@@ -1,13 +1,6 @@
-#!/usr/bin/python3
-import execjs
-f = open('./sign.js', 'r', encoding='utf-8')
-line = f.readline()
-htmlstr = ''
-while line:
-    htmlstr = htmlstr + line
-    line = f.readline()
-# print(htmlstr)
-ctx = execjs.compile(htmlstr)
+import runjs
+
+# 测试参数
 params = {
     "appKey": "00000001",
     "format": "json",
@@ -22,5 +15,6 @@ params = {
     "tenantCode": "jji",
     "ns": ""
 }
-res = ctx.call('createSign', params)
-print(res)
+
+sign = runjs.run_js(params)
+print(sign)
