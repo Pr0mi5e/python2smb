@@ -4,7 +4,7 @@
 block_cipher = None
 
 
-a = Analysis(['login-yongdao.py'],
+a = Analysis(['win.py'],
              pathex=[],
              binaries=[],
              datas=[],
@@ -26,7 +26,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,  
           [],
-          name='login-yongdao',
+          name='win',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
